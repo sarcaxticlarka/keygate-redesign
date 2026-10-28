@@ -23,3 +23,20 @@ export function CopyCmd({ cmd }: { cmd: string }) {
     </button>
   );
 }
+
+export function CodeTabs({ items }: { items: { label: string; title: string; code: string }[] }) {
+  const [i, setI] = useState(0);
+  const [ok, setOk] = useState(false);
+  const cur = items[i];
+  return (
+    <div className="codebox">
+      <div className="code-bar">
+        <span className="code-tabs">
+          {items.map((t, n) => <button key={t.label} className={n === i ? "on" : ""} onClick={() => setI(n)}>{t.label}</button>)}
+        </span>
+        <button className="copy" onClick={async () => { try { await navigator.clipboard.writeText(cur.code); setOk(true); setTimeout(() => setOk(false), 1400); } catch {} }}>{ok ? "Copied ✓" : "Copy"}</button>
+      </div>
+      <div className="code">{cur.code}</div>
+    </div>
+  );
+}

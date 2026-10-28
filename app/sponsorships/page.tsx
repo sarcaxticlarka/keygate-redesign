@@ -1,5 +1,5 @@
 import FAQ from "@/components/FAQ";
-import { Reveal, SplitWords } from "@/components/Motion";
+import { PageHero, SectionHead, CTABand } from "@/components/Page";
 
 export const metadata = { title: "Sponsor Keygate - Support Open Source License Management | Keygate" };
 
@@ -20,41 +20,47 @@ const faq = [
 export default function Sponsor() {
   return (
     <>
-      <section className="sec page-hero"><div className="frame"><div className="inner">
-        <h1 className="display"><SplitWords as="span" text="Sponsor Keygate" accentFrom={1} delay={0.1} /></h1>
-        <Reveal delay={0.4}><p className="lead">Keygate is free and self hosted, and stays that way. Sponsoring covers the time that goes into releases, issues and docs. Everything here is about visibility, not access.</p></Reveal>
-      </div></div></section>
-      <section className="sec light"><div className="frame">
-        <div className="tiers">
-          {tiers.map(([n, a, per, d]) => (
-            <div key={n} className="tier"><b>{n}</b><div className="amt">{a} <small>{per}</small></div><p>{d}</p></div>
-          ))}
+      <PageHero crumbs={[{ label: "Sponsor" }]} title="Sponsor Keygate" accentFrom={1} lead="Keygate is free and self hosted, and stays that way. Sponsoring covers the time that goes into releases, issues and docs. Everything here is about visibility, not access." />
+      <section className="sec alt">
+        <div className="frame">
+          <div className="tiers">
+            {tiers.map(([n, a, per, d]) => (
+              <div key={n} className="tier spot"><b>{n}</b><div className="amt">{a} <small>{per}</small></div><p>{d}</p></div>
+            ))}
+          </div>
+          <div className="pad" style={{ borderTop: "1px solid var(--line)", paddingTop: 40, paddingBottom: 40, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20 }}>
+            <p className="lead" style={{ maxWidth: 560 }}>Memberships and one off tips are handled on Ko-fi. Cancel whenever you like.</p>
+            <a className="btn solid" href="https://ko-fi.com" target="_blank" rel="noreferrer">Sponsor on Ko-fi <span className="arrow">→</span></a>
+          </div>
         </div>
-        <div className="pad" style={{ borderTop: "1px solid var(--line-l)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20 }}>
-          <p className="lead" style={{ maxWidth: 560 }}>Memberships and one off tips are handled on Ko-fi. Cancel whenever you like.</p>
-          <a className="btn solid" href="https://ko-fi.com" target="_blank" rel="noreferrer">Sponsor on Ko-fi <span className="arrow">→</span></a>
+      </section>
+      <section className="sec">
+        <div className="frame pad">
+          <span className="eyebrow">Where it goes</span>
+          <div className="three">
+            {[["Releases and fixes", "Reported bugs, the tests that keep them from coming back, and a release that people can upgrade to without surprises."],
+              ["Running the project", "The site, the docs, CI minutes, and the Stripe and storage accounts the end to end tests run against."],
+              ["Docs and translations", "Guides that answer a question before it becomes an issue, and keeping the English and Chinese interfaces in step."]].map(([h, p]) => (
+              <div key={h}><h3>{h}</h3><p>{p}</p></div>
+            ))}
+          </div>
         </div>
-      </div></section>
-      <section className="sec"><div className="frame pad">
-        <span className="eyebrow">Where it goes</span>
-        <div className="three">
-          {[["Releases and fixes", "Reported bugs, the tests that keep them from coming back, and a release that people can upgrade to without surprises."],
-            ["Running the project", "The site, the docs, CI minutes, and the Stripe and storage accounts the end to end tests run against."],
-            ["Docs and translations", "Guides that answer a question before it becomes an issue, and keeping the English and Chinese interfaces in step."]].map(([h, p]) => (
-            <div key={h}><h3>{h}</h3><p>{p}</p></div>
-          ))}
+      </section>
+      <section className="sec">
+        <div className="frame pad">
+          <span className="eyebrow">Sponsors</span>
+          <p className="lead" style={{ marginTop: 20 }}>Backers and supporters are listed here by name. Business sponsors get their logo.</p>
+          <div className="backers"><span>Troy</span><span>Thomas K.</span></div>
         </div>
-      </div></section>
-      <section className="sec"><div className="frame pad">
-        <span className="eyebrow">Sponsors</span>
-        <p className="lead" style={{ marginTop: 20 }}>Backers and supporters are listed here by name. Business sponsors get their logo.</p>
-        <div className="backers"><span>Troy</span><span>Thomas K.</span></div>
-      </div></section>
-      <section className="sec"><div className="frame pad">
-        <span className="eyebrow">Questions</span>
-        <div style={{ marginTop: 32 }}><FAQ items={faq} /></div>
-        <p className="muted" style={{ marginTop: 32 }}>Need a commercial license instead? Write to <a href="mailto:hello@keygate.app" style={{ color: "var(--lime)" }}>hello@keygate.app</a></p>
-      </div></section>
+      </section>
+      <section className="sec">
+        <div className="frame pad">
+          <SectionHead eyebrow="Questions" title="Fair questions." />
+          <div style={{ marginTop: 40 }}><FAQ items={faq} /></div>
+          <p className="muted" style={{ marginTop: 32 }}>Need a commercial license instead? Write to <a href="mailto:hello@keygate.app" style={{ color: "var(--accent-t)" }}>hello@keygate.app</a></p>
+        </div>
+      </section>
+      <CTABand title="Keep it free. Keep it yours." primary={{ href: "https://ko-fi.com", label: "Sponsor" }} />
     </>
   );
 }

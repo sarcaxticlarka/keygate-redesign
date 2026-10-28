@@ -87,3 +87,6 @@ export const docsGroups = [
 ];
 
 export const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+export const vendorRows = (k: VendorKey) =>
+  vendors[k].rows.map((r) => ({ feature: r[0] as string, v: [r[1], r[2]] as ("yes" | "no" | "partial")[] }));

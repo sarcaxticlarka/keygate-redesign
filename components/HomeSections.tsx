@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import CodeBlock from "./CodeBlock";
 import { Reveal, SplitWords } from "./Motion";
+import { SectionHead } from "./Page";
+import CompareTable from "./CompareTable";
 import { matrix } from "@/lib/data";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -28,7 +30,7 @@ const usage = `<span class="k">POST</span> /api/v1/license/usage
 
 export function Features() {
   return (
-    <section id="features" className="sec light">
+    <section id="features" className="sec alt">
       <div className="frame feat">
         <div className="feat-left">
           <div className="feat-sticky">
@@ -38,15 +40,16 @@ export function Features() {
             <Reveal delay={0.1}><Link href="/docs" className="btn solid">Read the docs <span className="arrow">→</span></Link></Reveal>
           </div>
         </div>
+        <div className="swipe-hint"><span>Swipe · 4 modules</span><i /></div>
         <div className="feat-right">
-          <article className="card">
+          <article className="card spot">
             <div className="card-head"><span className="card-tag">LICENSING</span><span className="card-idx">01 / 04</span></div>
             <h3>Every model, one API</h3>
             <p>Subscription, perpetual or trial, node locked or floating. Activation limits per device or user, grace periods, and Ed25519 signed tokens your app verifies offline, so a copy of your binary cannot mint its own.</p>
             <div className="chips"><span className="chip">3 license types + floating</span><span className="chip">Device & user limits</span><span className="chip">Ed25519 offline</span></div>
             <CodeBlock title="verify" code={verifyRaw} html={verify} />
           </article>
-          <article className="card">
+          <article className="card spot">
             <div className="card-head"><span className="card-tag">METERING</span><span className="card-idx">02 / 04</span></div>
             <h3>Atomic usage tracking</h3>
             <p>Track API calls, storage, bandwidth, or define your own metrics. Quotas are enforced atomically with <code className="mono">SELECT FOR UPDATE</code>, so two concurrent requests never both pass a limit check.</p>
@@ -54,13 +57,13 @@ export function Features() {
             <div className="chips"><span className="chip">Custom metrics</span><span className="chip">Race-condition-proof</span><span className="chip">Auto-reset periods</span></div>
             <CodeBlock title="usage" code="POST /api/v1/license/usage" html={usage} />
           </article>
-          <article className="card">
+          <article className="card spot">
             <div className="card-head"><span className="card-tag">PAYMENTS</span><span className="card-idx">03 / 04</span></div>
             <h3>Stripe, end to end</h3>
             <p>Customer pays, license auto-provisions. Payment fails, dunning emails fire. Checkout, plan changes with proration, cancellations, refunds and the billing portal, wired once and then self-running.</p>
             <div className="chips"><span className="chip">Auto-provisioning</span><span className="chip">Dunning & lifecycle</span><span className="chip">Upgrade / downgrade</span></div>
           </article>
-          <article className="card">
+          <article className="card spot">
             <div className="card-head"><span className="card-tag">ADMIN</span><span className="card-idx">04 / 04</span></div>
             <h3>One dashboard for everything</h3>
             <p>Products, plans, customers, licenses, API keys, webhooks, analytics, audit logs, teams and email templates, managed from a single panel with search, filters and CSV/JSON export.</p>
@@ -119,7 +122,7 @@ export function Lifecycle() {
       <div className="frame" style={{ borderTop: 0 }}>
         <div className="life-grid" style={{ margin: 0, marginTop: 64 }}>
           {lifecycle.map(([evt, doit], i) => (
-            <motion.div key={i} className="life-cell" initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: i * 0.12, ease }}>
+            <motion.div key={i} className="life-cell spot" initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: i * 0.12, ease }}>
                 <motion.span className="life-line" initial={{ width: 0 }} whileInView={{ width: "100%" }} viewport={{ once: true }} transition={{ duration: 1.1, delay: i * 0.25, ease }} />
                 <span className="life-num">{i + 1}</span>
                 <div><div className="life-evt">{evt}</div><div className="life-do" style={{ marginTop: 10 }}>→ {doit}</div></div>
@@ -141,7 +144,7 @@ export function Steps() {
   const [i, setI] = useState(0);
   const s = stepData[i];
   return (
-    <section className="sec light">
+    <section className="sec alt">
       <div className="frame">
         <div className="pad" style={{ borderBottom: "1px solid var(--line-l)" }}>
           <div className="split">
@@ -169,30 +172,14 @@ export function Steps() {
 }
 
 export function MiniCompare() {
-  const cols = ["Keygate", "Keygen", "Cryptlex", "LicenseSpring"];
-  const sym = { yes: "✓", no: "✕", partial: "~" } as const;
   return (
     <section className="sec">
       <div className="frame pad" style={{ paddingBottom: 0 }}>
-        <div className="split">
-          <div><span className="eyebrow">How Keygate compares</span><div style={{ marginTop: 20 }}><SplitWords as="h2" className="display" text="Honest side by side." /></div></div>
-          <Reveal><p className="lead">Checked against each vendor's own documentation and pricing in October 2026. Spot something out of date? Open an issue on GitHub.</p></Reveal>
-        </div>
-        <Reveal>
-          <div className="tbl-wrap">
-            <table className="cmp">
-              <thead><tr><th>Feature</th>{cols.map((c, i) => <th key={c} className={i === 0 ? "kg" : ""}>{c}</th>)}</tr></thead>
-              <tbody>
-                {matrix.map((r) => (
-                  <tr key={r.feature}><td>{r.feature}</td>{r.v.map((v, i) => <td key={i} className={i === 0 ? "kg" : ""}><span className={`mark ${v}`}>{sym[v]}</span></td>)}</tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Reveal>
+        <SectionHead eyebrow="How Keygate compares" title="Honest side by side." lead="Checked against each vendor's own documentation and pricing in October 2026. Spot something out of date? Open an issue on GitHub." />
+        <Reveal><div style={{ marginTop: 40 }}><CompareTable columns={["Keygate", "Keygen", "Cryptlex", "LicenseSpring"]} rows={matrix} /></div></Reveal>
       </div>
       <div className="frame" style={{ borderTop: 0 }}>
-        <div className="pad" style={{ paddingTop: 40, paddingBottom: 56 }}>
+        <div className="pad" style={{ paddingTop: 40, paddingBottom: 64 }}>
           <Link href="/compare" className="btn">See the full comparisons <span className="arrow">→</span></Link>
         </div>
       </div>

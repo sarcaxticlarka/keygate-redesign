@@ -4,9 +4,13 @@ import type { ReactNode, CSSProperties } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+// Hero delays assume the loader curtain; when it is skipped, don't wait for it.
+const wait = (d: number) =>
+  typeof document !== "undefined" && document.documentElement.dataset.seen === "1" ? Math.max(0, d - 1.5) : d;
+
 export function Reveal({ children, delay = 0, y = 32, className, style }: { children: ReactNode; delay?: number; y?: number; className?: string; style?: CSSProperties }) {
   return (
-    <motion.div className={className} style={style} initial={{ opacity: 0, y }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.9, delay, ease }}>
+    <motion.div className={className} style={style} initial={{ opacity: 0, y }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.9, delay: wait(delay), ease }}>
       {children}
     </motion.div>
   );
@@ -17,7 +21,7 @@ export function SplitWords({ text, className, delay = 0, as: Tag = "span", accen
   const words = text.split(" ");
   const M = motion[Tag] as typeof motion.span;
   return (
-    <M className={className} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} transition={{ staggerChildren: 0.07, delayChildren: delay }}>
+    <M className={className} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} transition={{ staggerChildren: 0.07, delayChildren: wait(delay) }}>
       {words.map((w, i) => (
         <span key={i} className="word" style={{ marginRight: "0.22em" }}>
           <motion.span className={accentFrom !== undefined && i >= accentFrom ? "accent" : undefined} variants={{ hidden: { y: "110%" }, show: { y: 0 } } as Variants} transition={{ duration: 0.9, ease }}>{w}</motion.span>

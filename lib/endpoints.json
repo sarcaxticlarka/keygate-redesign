@@ -1,0 +1,530 @@
+{
+ "version": "1.3.0",
+ "order": [
+  "License",
+  "Entitlements",
+  "Usage",
+  "Seats",
+  "Floating",
+  "Releases",
+  "Site",
+  "Checkout",
+  "Signup",
+  "Auth",
+  "Portal",
+  "Admin Licenses",
+  "Admin Releases",
+  "Admin Webhooks",
+  "Webhooks"
+ ],
+ "tags": {
+  "Site": [
+   [
+    "GET",
+    "/config",
+    "Public site configuration"
+   ],
+   [
+    "GET",
+    "/version",
+    "Server version"
+   ],
+   [
+    "GET",
+    "/products/{product_slug}/plans",
+    "Public plan catalogue for a pricing page"
+   ]
+  ],
+  "License": [
+   [
+    "GET",
+    "/license/pubkey",
+    "Get the Ed25519 verification key"
+   ],
+   [
+    "POST",
+    "/license/activate",
+    "Activate a license"
+   ],
+   [
+    "POST",
+    "/license/verify",
+    "Verify a license activation"
+   ],
+   [
+    "POST",
+    "/license/deactivate",
+    "Deactivate a device or user"
+   ]
+  ],
+  "Entitlements": [
+   [
+    "POST",
+    "/license/entitlements",
+    "Check feature entitlements"
+   ]
+  ],
+  "Usage": [
+   [
+    "POST",
+    "/license/usage",
+    "Record usage"
+   ],
+   [
+    "POST",
+    "/license/usage/status",
+    "Get quota status"
+   ]
+  ],
+  "Floating": [
+   [
+    "POST",
+    "/license/floating/checkout",
+    "Checkout a floating session"
+   ],
+   [
+    "POST",
+    "/license/floating/checkin",
+    "Release a floating session"
+   ],
+   [
+    "POST",
+    "/license/floating/heartbeat",
+    "Extend a floating session"
+   ]
+  ],
+  "Releases": [
+   [
+    "POST",
+    "/license/download",
+    "Get a license-gated download URL"
+   ],
+   [
+    "GET",
+    "/releases/{product_slug}/feed.xml",
+    "Sparkle appcast (per-platform)"
+   ],
+   [
+    "GET",
+    "/releases/{product_slug}/feed.json",
+    "Velopack feed (per-platform)"
+   ],
+   [
+    "GET",
+    "/releases/{product_slug}/velopack/{platform}/{file}",
+    "Velopack feed and package downloads, at the URLs Velopack builds"
+   ],
+   [
+    "GET",
+    "/releases/{product_slug}/upgrade.json",
+    "Tauri updater manifest (latest only)"
+   ]
+  ],
+  "Seats": [
+   [
+    "POST",
+    "/invites/accept",
+    "Accept a seat invite (public, token-only)"
+   ],
+   [
+    "POST",
+    "/portal/seats",
+    "List seats on a license (portal)"
+   ],
+   [
+    "POST",
+    "/portal/seats/add",
+    "Invite a member (portal)"
+   ],
+   [
+    "POST",
+    "/portal/seats/remove",
+    "Remove a member (portal)"
+   ]
+  ],
+  "Checkout": [
+   [
+    "GET",
+    "/pay/{checkout_id}",
+    "Hosted checkout link for a plan (root path)"
+   ],
+   [
+    "GET",
+    "/checkout/verify",
+    "Confirm a Stripe Checkout session on the success page"
+   ]
+  ],
+  "Auth": [
+   [
+    "GET",
+    "/auth/providers",
+    "Sign-in methods this server offers"
+   ],
+   [
+    "POST",
+    "/auth/otp/send",
+    "Email a six-digit sign-in code"
+   ],
+   [
+    "POST",
+    "/auth/otp/verify",
+    "Sign in with the emailed code"
+   ],
+   [
+    "POST",
+    "/auth/refresh",
+    "Renew the session"
+   ],
+   [
+    "POST",
+    "/auth/logout",
+    "Sign out"
+   ]
+  ],
+  "Signup": [
+   [
+    "GET",
+    "/signup/{checkout_id}",
+    "What a self sign-up form shows"
+   ],
+   [
+    "POST",
+    "/signup/{checkout_id}/send",
+    "Mail a confirmation code"
+   ],
+   [
+    "POST",
+    "/signup/{checkout_id}/verify",
+    "Confirm the code and claim the licence"
+   ]
+  ],
+  "Portal": [
+   [
+    "GET",
+    "/portal/me",
+    "The signed-in user"
+   ],
+   [
+    "GET",
+    "/portal/licenses",
+    "The signed-in user's licenses"
+   ],
+   [
+    "PUT",
+    "/portal/profile",
+    "Update the signed-in user's display name"
+   ],
+   [
+    "GET",
+    "/portal/plans",
+    "Active plans of a product"
+   ],
+   [
+    "POST",
+    "/portal/usage",
+    "Record usage from a portal session"
+   ],
+   [
+    "POST",
+    "/portal/usage/status",
+    "Get quota status from a portal session"
+   ],
+   [
+    "GET",
+    "/portal/licenses/{license_key}/activations",
+    "List a license's activations"
+   ],
+   [
+    "DELETE",
+    "/portal/licenses/{license_key}/activations/{activation_id}",
+    "Remove an activation (free a device slot)"
+   ],
+   [
+    "POST",
+    "/portal/subscription/change-plan",
+    "Move a subscription to another plan"
+   ],
+   [
+    "POST",
+    "/portal/subscription/preview",
+    "Preview a change to a subscription's plan or seats"
+   ],
+   [
+    "POST",
+    "/portal/subscription/change",
+    "Change a subscription's plan or seats, as previewed"
+   ],
+   [
+    "POST",
+    "/portal/subscription/pending",
+    "A subscription change waiting for payment"
+   ],
+   [
+    "POST",
+    "/portal/subscription/cancel",
+    "Cancel a subscription"
+   ],
+   [
+    "POST",
+    "/portal/subscription/billing-portal",
+    "Open the Stripe customer portal"
+   ],
+   [
+    "GET",
+    "/portal/subscription/invoices",
+    "Invoices of a license's Stripe customer"
+   ],
+   [
+    "POST",
+    "/portal/updates/renew",
+    "Buy a maintenance renewal for a perpetual license"
+   ],
+   [
+    "POST",
+    "/portal/licenses/upgrade",
+    "Upgrade a license on a free plan to a paid plan (portal session)"
+   ]
+  ],
+  "Admin Licenses": [
+   [
+    "GET",
+    "/admin/licenses",
+    "List licenses"
+   ],
+   [
+    "POST",
+    "/admin/licenses",
+    "Create a license"
+   ],
+   [
+    "GET",
+    "/admin/licenses/export",
+    "Export licenses with their keys"
+   ],
+   [
+    "GET",
+    "/admin/licenses/{id}",
+    "Get a license"
+   ],
+   [
+    "GET",
+    "/admin/licenses/{id}/key",
+    "Reveal a license key"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/rotate-key",
+    "Replace a license key"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/resend-email",
+    "Email the customer their key again"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/refund",
+    "Cancel and revoke (path kept as /refund)"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/revoke",
+    "Revoke a license"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/suspend",
+    "Suspend a license"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/reinstate",
+    "Reinstate a license"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/quantity",
+    "Set the seats of a license on a per-seat plan"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/valid-until",
+    "Set or clear a license's expiry"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/updates-until",
+    "Set or clear a perpetual license's update cutoff"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/change-plan",
+    "Move a license to another plan of its product"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/stripe/unlink",
+    "Detach an ended Stripe subscription from a license"
+   ],
+   [
+    "GET",
+    "/admin/licenses/{id}/usage",
+    "Usage events and counters of a license"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/usage/reset",
+    "Reset a usage counter"
+   ],
+   [
+    "GET",
+    "/admin/licenses/{id}/seats",
+    "Seats of a license"
+   ],
+   [
+    "DELETE",
+    "/admin/licenses/{id}/seats/{seat_id}",
+    "Remove a member or cancel an invitation"
+   ],
+   [
+    "GET",
+    "/admin/licenses/{id}/seats/{seat_id}/key",
+    "Reveal a member's key"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/seats/{seat_id}/rotate-key",
+    "Reissue a member's key"
+   ],
+   [
+    "GET",
+    "/admin/licenses/{id}/addons",
+    "Add-ons attached to a license"
+   ],
+   [
+    "POST",
+    "/admin/licenses/{id}/addons",
+    "Attach an add-on to a license"
+   ],
+   [
+    "DELETE",
+    "/admin/licenses/{id}/addons/{addon_id}",
+    "Detach an add-on from a license"
+   ],
+   [
+    "GET",
+    "/admin/licenses/{id}/floating",
+    "Floating sessions of a license"
+   ],
+   [
+    "DELETE",
+    "/admin/activations/{id}",
+    "Remove an activation"
+   ]
+  ],
+  "Admin Releases": [
+   [
+    "GET",
+    "/admin/releases",
+    "List releases"
+   ],
+   [
+    "POST",
+    "/admin/releases",
+    "Create a draft release"
+   ],
+   [
+    "GET",
+    "/admin/releases/{id}",
+    "Get a release"
+   ],
+   [
+    "PATCH",
+    "/admin/releases/{id}",
+    "Update a release's name and notes"
+   ],
+   [
+    "DELETE",
+    "/admin/releases/{id}",
+    "Delete a draft release"
+   ],
+   [
+    "PATCH",
+    "/admin/releases/{id}/notes",
+    "Update a release's name and notes (deprecated alias)"
+   ],
+   [
+    "POST",
+    "/admin/releases/{id}/artifacts",
+    "Add an artifact and get an upload URL"
+   ],
+   [
+    "POST",
+    "/admin/releases/{id}/artifacts/{aid}/finalize",
+    "Finalize an uploaded artifact"
+   ],
+   [
+    "DELETE",
+    "/admin/releases/{id}/artifacts/{aid}",
+    "Delete an artifact of a draft"
+   ],
+   [
+    "POST",
+    "/admin/releases/{id}/actions/publish",
+    "Publish a draft release"
+   ],
+   [
+    "POST",
+    "/admin/releases/{id}/actions/yank",
+    "Yank a published release"
+   ],
+   [
+    "POST",
+    "/admin/releases/{id}/actions/unyank",
+    "Restore a yanked release"
+   ]
+  ],
+  "Admin Webhooks": [
+   [
+    "GET",
+    "/admin/webhooks",
+    "List webhook endpoints"
+   ],
+   [
+    "POST",
+    "/admin/webhooks",
+    "Create a webhook endpoint"
+   ],
+   [
+    "PUT",
+    "/admin/webhooks/{id}",
+    "Update a webhook endpoint"
+   ],
+   [
+    "DELETE",
+    "/admin/webhooks/{id}",
+    "Delete a webhook endpoint"
+   ],
+   [
+    "GET",
+    "/admin/webhooks/{id}/deliveries",
+    "List an endpoint's deliveries"
+   ],
+   [
+    "GET",
+    "/admin/webhooks/{id}/deliveries/{delivery_id}",
+    "Get one delivery"
+   ],
+   [
+    "POST",
+    "/admin/webhooks/{id}/deliveries/{delivery_id}/resend",
+    "Send a delivery again"
+   ],
+   [
+    "POST",
+    "/admin/webhooks/{id}/test",
+    "Send a test event"
+   ]
+  ]
+ }
+}
